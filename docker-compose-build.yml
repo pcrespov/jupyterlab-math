@@ -1,7 +1,0 @@
-version: "3.7"
-services:
-  jupyterlab:
-    image: local/jupyterlab:${VERSION}
-    build:
-      context: ./
-      dockerfile: docker/Dockerfile
