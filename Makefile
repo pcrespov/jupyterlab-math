@@ -8,3 +8,16 @@ export BUILD_DATE := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 
 export VERSION  ?= $(shell cat VERSION)
+
+
+export USER :=$(shell id -un)
+export SUID :=$(shell id -u)
+export SUID :=$(shell id -g)
+
+
+
+up:
+	docker-compose --file compose-code-server.yml up
+
+down:
+	docker-compose --file compose-code-server.yml down
