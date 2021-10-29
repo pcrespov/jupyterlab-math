@@ -5,8 +5,8 @@ services:
     image: lscr.io/linuxserver/code-server
     container_name: code-server
     environment:
-      - PUID=${SUID}
-      - PGID=${SGID}
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=Europe/Zurich
       #- PASSWORD=password #optional
       #- HASHED_PASSWORD= #optional
@@ -14,7 +14,11 @@ services:
       #- SUDO_PASSWORD_HASH= #optional
       #- PROXY_DOMAIN=code-server.my.domain #optional
     volumes:
-      - ./appdata/config:/config
+      - ${OSPARC_APPDATA_CONFIG_VOLUME}:/config
+      - ${OSPARC_APPDATA_INPUTS_VOLUME}:${INPUT_FOLDER}:ro
+      - ${OSPARC_APPDATA_OUTPUTS_VOLUME}:${OUTPUT_FOLDER}
     ports:
       - 8443:8443
+    entrypoint: ["ln", "-s", "/config/.osparc/exchange", "/config/.osparc/workflow"]
+
     restart: unless-stopped

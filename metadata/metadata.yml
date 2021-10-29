@@ -1,13 +1,13 @@
-name: jupyterlab
-key: simcore/services/dynamic/jupyterlab
+name: code-server
+key: simcore/services/dynamic/code-server
 type: dynamic
 integration-version: 1.0.0
 version: 3.0.5
 description: foo
-contact: foo@itis.swiss
+contact: user@itis.swiss
 authors:
-  - name: Foo
-    email: foo@itis.swiss
+  - name: Name Surname
+    email: user@itis.swiss
     affiliation: IT'IS Foundation
 inputs:
   string_input:
