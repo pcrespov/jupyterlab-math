@@ -1,0 +1,7 @@
+compose-spec: null
+container-http-entrypoint: null
+paths-mapping:
+  output_paths: "/config/.osparc/exchange/inputs"
+  inputs_paths: "/config/.osparc/exchange/outputs"
+  state_paths:
+    - "/config/workspace"
