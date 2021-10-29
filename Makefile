@@ -16,6 +16,15 @@ export SUID :=$(shell id -g)
 
 
 
+devenv: ## builds dev environment installing simcore-service-integrator tool
+	python3 -m venv .venv
+	.venv/bin/pip install -U pip wheel setuptools
+	.venv/bin/pip install -e ../osparc-simcore/packages/models-library
+	.venv/bin/pip install -e ../osparc-simcore/packages/service-integration
+	@echo Type "simcore-service-integrator --help"
+
+
+
 up:
 	docker-compose --file compose-code-server.yml up
 
