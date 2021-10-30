@@ -1,0 +1,20 @@
+compose-spec: null
+container-http-entrypoint: null
+paths-mapping:
+  output_paths: "/config/.osparc/exchange/inputs"
+  inputs_paths: "/config/.osparc/exchange/outputs"
+  state_paths:
+    - "/config/workspace"
+settings:
+  - name: resources
+    type: Resources
+    value:
+      mem_limit: 17179869184
+      cpu_limit: 1000000000
+  - name: ports
+    type: int
+    value: 8080
+  - name: constraints
+    type: string
+    value:
+      - node.platform.os == linux

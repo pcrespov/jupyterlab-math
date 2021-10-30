@@ -1,9 +1,8 @@
 name: code-server
 key: simcore/services/dynamic/code-server
 type: dynamic
-integration-version: 2.0.0
-version-integration: 2.0.0
 version: 3.0.5
+version-integration: 2.0.0
 description: foo
 contact: user@itis.swiss
 authors:
