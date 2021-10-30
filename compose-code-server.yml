@@ -2,8 +2,8 @@
 version: "2.1"
 services:
   code-server:
-    image: lscr.io/linuxserver/code-server
-    container_name: code-server
+    #image: lscr.io/linuxserver/code-server
+    image: linuxserver/code-server:${VERSION}
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -19,6 +19,6 @@ services:
       - ${OSPARC_APPDATA_OUTPUTS_VOLUME}:${OUTPUT_FOLDER}
     ports:
       - 8443:8443
-    entrypoint: ["ln", "-s", "/config/.osparc/exchange", "/config/.osparc/workflow"]
+    # TODO: check s6 to run this script "ln -s /config/.osparc/exchange /config/.osparc/workflow
 
     restart: unless-stopped
