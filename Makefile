@@ -58,6 +58,8 @@ down:
 	docker-compose --file compose-code-server.yml down
 
 
+.PHONY: build inspect
+
 export DOCKER_IMAGE_NAME := code-server
 export DOCKER_IMAGE_TAG := $(VERSION)
 
@@ -69,18 +71,28 @@ build:
 	# inspect
 	docker image inspect local/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} | jq
 	
+inspect:
+	docker image inspect local/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} | jq
+
+inspect-id:
+	docker image inspect local/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} | jq '.[] | {id: .Id, tags:.RepoTags, digests: .RepoDigests} '
+
+inspect-labels:
+	docker image inspect local/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} | jq '.[] | .Config.Labels'
+
 
 # DOCKER REGISTRY --------------------------------------
 
 export DOCKER_REGISTRY := registry:5000
+DOCKER_IMAGE_PUBLISHED_NAME := simcore/services/dynamic/${DOCKER_IMAGE_NAME}
 
 publish:
 	# publishing to ${DOCKER_REGISTRY}
 	docker tag \
 		local/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
-		${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+		${DOCKER_REGISTRY}/${DOCKER_IMAGE_PUBLISHED_NAME}:${DOCKER_IMAGE_TAG}
 	docker push \
-		${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+		${DOCKER_REGISTRY}/${DOCKER_IMAGE_PUBLISHED_NAME}:${DOCKER_IMAGE_TAG}
 
 
 define repo-digest ?=
@@ -94,16 +106,16 @@ repo-info: ## SEE https://docs.docker.com/registry/spec/api/#detail
 	# list all
 	curl --silent $(DOCKER_REGISTRY)/v2/_catalog | jq '.repositories'
 	# simplified manifest
-	curl --silent $(DOCKER_REGISTRY)/v2/$(DOCKER_IMAGE_NAME)/manifests/$(DOCKER_IMAGE_TAG) | jq 'del(.fsLayers) | del(.history)' 
-	# tags $(DOCKER_IMAGE_NAME)
-	curl --silent $(DOCKER_REGISTRY)/v2/$(DOCKER_IMAGE_NAME)/tags/list | jq
+	curl --silent $(DOCKER_REGISTRY)/v2/$(DOCKER_IMAGE_PUBLISHED_NAME)/manifests/$(DOCKER_IMAGE_TAG) | jq 'del(.fsLayers) | del(.history)' 
+	# tags $(DOCKER_IMAGE_PUBLISHED_NAME)
+	curl --silent $(DOCKER_REGISTRY)/v2/$(DOCKER_IMAGE_PUBLISHED_NAME)/tags/list | jq
 	# repo-digest
 	@echo $(repo-digest)
 
 manifest:
 	# NOTE: the Docker content digest in this header is NOT the reference recessary for deletion
-	@curl -ISs $(DOCKER_REGISTRY)/v2/$(DOCKER_IMAGE_NAME)/manifests/$(DOCKER_IMAGE_TAG)
+	@curl -ISs $(DOCKER_REGISTRY)/v2/$(DOCKER_IMAGE_PUBLISHED_NAME)/manifests/$(DOCKER_IMAGE_TAG)
 
 .PHONY: delete
 repo-delete:
-	curl --silent -X DELETE $(DOCKER_REGISTRY)/v2/$(DOCKER_IMAGE_NAME)/manifests/$(repo-digest)
+	curl --silent -X DELETE $(DOCKER_REGISTRY)/v2/$(DOCKER_IMAGE_PUBLISHED_NAME)/manifests/$(repo-digest)
