@@ -1,10 +1,10 @@
 compose-spec: null
 container-http-entrypoint: null
 paths-mapping:
-  output_paths: "/config/.osparc/exchange/inputs"
-  inputs_paths: "/config/.osparc/exchange/outputs"
+  inputs_path: "/config/workspace/inputs"
+  outputs_path: "/config/workspace/outputs"
   state_paths:
-    - "/config/workspace"
+    - "/config"
 settings:
   - name: resources
     type: Resources
@@ -13,7 +13,7 @@ settings:
       cpu_limit: 1000000000
   - name: ports
     type: int
-    value: 8080
+    value: 8443
   - name: constraints
     type: string
     value:
