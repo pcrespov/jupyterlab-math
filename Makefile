@@ -45,7 +45,7 @@ devenv: ## builds dev environment installing simcore-service-integrator tool
 	.venv/bin/pip install -U pip wheel setuptools
 	.venv/bin/pip install -e ../osparc-simcore/packages/models-library
 	.venv/bin/pip install -e ../osparc-simcore/packages/service-integration
-	@echo Type "simcore-service-integrator --help" or "ossi --help"
+	@echo Type "simcore-service-integrator --help" or "oint --help"
 
 
 config:
@@ -70,7 +70,7 @@ build:
 	docker-compose -f docker-compose-meta.yml -f docker-compose-build.yml build
 	# inspect
 	docker image inspect local/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} | jq
-	
+
 inspect:
 	docker image inspect local/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} | jq
 
@@ -106,7 +106,7 @@ repo-info: ## SEE https://docs.docker.com/registry/spec/api/#detail
 	# list all
 	curl --silent $(DOCKER_REGISTRY)/v2/_catalog | jq '.repositories'
 	# simplified manifest
-	curl --silent $(DOCKER_REGISTRY)/v2/$(DOCKER_IMAGE_PUBLISHED_NAME)/manifests/$(DOCKER_IMAGE_TAG) | jq 'del(.fsLayers) | del(.history)' 
+	curl --silent $(DOCKER_REGISTRY)/v2/$(DOCKER_IMAGE_PUBLISHED_NAME)/manifests/$(DOCKER_IMAGE_TAG) | jq 'del(.fsLayers) | del(.history)'
 	# tags $(DOCKER_IMAGE_PUBLISHED_NAME)
 	curl --silent $(DOCKER_REGISTRY)/v2/$(DOCKER_IMAGE_PUBLISHED_NAME)/tags/list | jq
 	# repo-digest

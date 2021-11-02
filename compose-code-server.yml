@@ -5,13 +5,18 @@ services:
     #image: lscr.io/linuxserver/code-server
     image: linuxserver/code-server:${VERSION}
     environment:
+    # S6 specific
       - PUID=${PUID}
       - PGID=${PGID}
+    # app specific
       - TZ=Europe/Zurich
+    # app specific BUT from a framework configuration
       #- PASSWORD=password #optional
       #- HASHED_PASSWORD= #optional
       #- SUDO_PASSWORD=password #optional
       #- SUDO_PASSWORD_HASH= #optional
+
+
       #- PROXY_DOMAIN=code-server.my.domain #optional
     volumes:
       - ${OSPARC_APPDATA_CONFIG_VOLUME}:/config

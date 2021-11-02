@@ -36,9 +36,9 @@ services:
         org.label-schema.build-date: ${BUILD_DATE}
         org.label-schema.vcs-ref: ${VCS_REF}
         org.label-schema.vcs-url: ${VCS_URL}
-        simcore.service.paths-mapping: '{"outputs_path": "/www/outputs", "inputs_path":
-          "/www/inputs", "state_paths": ["/workdir/generated-data"]}'
+        simcore.service.paths-mapping: '{"outputs_path": "/config/workspace/outputs",
+          "inputs_path": "/config/workspace/inputs", "state_paths": ["/config"]}'
         simcore.service.settings: '[{"name": "resources", "type": "Resources", "value":
           {"mem_limit":17179869184, "cpu_limit": 1000000000}}, {"name": "ports", "type":  "int",
-          "value": 8080}, {"name": "constraints", "type": "string", "value": ["node.platform.os
+          "value": 8443}, {"name": "constraints", "type": "string", "value": ["node.platform.os
           == linux"]}]'
